@@ -4,14 +4,14 @@ const cart = {
   count: 0,
   discount: 0,
   get totalPrice() {
-    return (this.calculateItemPrice() - ((this.calculateItemPrice() * this.discount) / 100));
+    return this.calculateItemPrice();
   },
   set setDiscount(promocode) {
     if (promocode === 'METHED') {
-      this.discount += 15;
+      this.discount = 15;
     };
     if (promocode === 'NEWYEAR') {
-      this.discount += 21;
+      this.discount = 21;
     };
   },
   add(productName, priceProduct, quantityProduct = 1) {
@@ -28,8 +28,9 @@ const cart = {
     return this.count;
   },
   calculateItemPrice() {
-    return this.items.reduce((acc, { priceProduct, quantityProduct }) =>
-      acc + priceProduct * quantityProduct, 0);
+    let result = this.items.reduce((acc, { priceProduct, quantityProduct }) =>
+    acc + priceProduct * quantityProduct, 0);
+    return result - (result * this.discount / 100);
   },
   clear() {
     this.items = [];
